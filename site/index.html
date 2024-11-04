@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Who's Verse</title>
-    <link rel="stylesheet" href="./css/index.css">
-    <link rel="icon" href="./icons/doctor who logo.gif">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="icon" href="../icons/doctor who logo.gif">
 </head>
 <body>
-    <header class="header"><a href="index.html"><img src="./icons/doctor who logo.gif" class="logo"></a>
+    <header class="header"><a href="index.html"><img src="../icons/doctor who logo.gif" class="logo"></a>
         <li>
+            <ul><a href="#h1_sobre">QUEM SOU EU</a></ul>
             <ul><a href="login.html">Login</a></ul>
             <ul><a href="cadastro.html">Cadastro</a></ul>
         </li>
@@ -22,7 +23,7 @@
     </div>
 
     <div class="mainContainer">
-        <img src="./icons/doctorwhoserie.jpg">
+        <img src="../icons/doctorwhoserie.jpg">
         <p>Doctor Who (tradução literal: Doutor Quem) é uma série de ficção científica britânica, <br>
             produzida e transmitida pela British Broadcasting Corporation (BBC) desde 1963. <br> 
             A série retrata as aventuras do Doutor, um alienígena da espécie fictícia de Senhores do Tempo <br>
@@ -32,10 +33,19 @@
             Juntamente aos seus companheiros, o Doutor enfrenta uma variedade de inimigos, <br>
             enquanto trabalha para salvar as civilizações, ajudar as pessoas comuns e corrigir erros.</p>
     </div>
-
-
-    <div class="Zaqueu">
-        <h1>Sobre mim:</h1>
+    <div class="tituloZaqueu">
+        <h1 id="h1_sobre">Sobre mim:</h1>
+    </div>   
+    <div class="zaqueu">
+        <img src="../icons/zaqueu.jpg">
+        <p>Me chamo Zaqueu, tive meu primeiro contato com Doctor Who quando criança,<br>
+        na época eu tinha por volta de 6 anos Doctor me cativou, me apaixonei por essa série, <br>
+        faz parte da minha vida até hoje, por conta dessa série que me interessei por física, matemática, <br>
+        e o espaço, ouso dizer que meu contato com tecnologia também veio por conta dessa série. <br>
+        Doctor Who passava as 19:00 todo dia na tv Cultura, lembro que me ajudou muito na escola,<br>
+        naquela época eu não gostava muito de física ou matemática, ele que me levou a encarar <br>
+        com outros olhos essa matéria, esse foi meu contato com a série. <br>
+        Planejo utilizar esse projeto para mostrar mais sobre a série, com minigames e gráficos.</p>
     </div>
     <!-- <div class="doutor">
         <h1>Doutores:</h1>
@@ -46,7 +56,22 @@
             <option value="css">CSS3</option>
         </select>
     </div> -->
+    <footer>
+        <img src="../icons/footerDalek-removebg-preview.png">
+        <menu class="menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="#h1_sobre">QUEM SOU EU</a></li>
+            <li><a href="">SIMULADOR</a></li>
+        </menu>
 
+        <form class="duvidas">
+            <li>DUVIDAS?</li>
+            <input type="email" id="emailDuvida" placeholder="E-mail" required>
+            <input type="text" id="mensagemDuvida" placeholder="Mensagem" required>
+            <button>Enviar</button>
+        </form>
+    </footer>
+    
 </body>
 </html>
 <script src="./js/index.js"></script>

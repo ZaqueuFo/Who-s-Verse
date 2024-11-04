@@ -36,7 +36,7 @@ a:hover {
 .header {
     font-family: 'DoctorWho';
     color: black;
-    background-color: #85B8CB;
+    background-color:  #034B61;
     display: flex;
     flex-direction: row;
     text-align: center;
@@ -55,6 +55,7 @@ a:hover {
 }
 
 .titulo {
+    background-image: url(../icons/background2.jpg);
     background-color: #1D6A96;
     font-family: 'Gallyfrey';
     color: white;
@@ -100,17 +101,128 @@ a:hover {
     font-weight: bold;
 }
 
-.doutor h1 {
+.tituloZaqueu {
+    background-color: #034B61;
+    font-family: 'Rubik', sans-serif;
     color: white;
+    padding-top: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 25px;
+    font-weight: bold;
 }
 
-.doutor {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 150px;
+.zaqueu img {
+    border-radius: 5px;
+    margin-right: 20px;
+    width: 300px;
 }
+.zaqueu {
+    background-color: #034B61;
+    font-family: 'Rubik', sans-serif;
+    color: white;
+    padding-top: 100px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    padding-left: 200px;
+    padding-right: 200px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
 
 .input {
 
+}
+
+/* Footer */
+footer {
+    font-family: 'Rubik', sans-serif;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    color: white;
+    background-color: #012623;
+    font-size: larger;
+    height: fit-content;
+}
+
+footer img {
+    width: 600px;
+    padding-top: 89px;
+    position: absolute;
+}
+
+footer menu {
+    text-align: center;
+    padding-top: 50px;
+    list-style: none;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    padding-right: 40px;
+    flex-direction: row;
+}
+
+footer menu li {
+    color: white;
+    margin: 10px;
+}
+
+footer form {
+    margin: 10px;
+}
+
+.duvidas {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.duvidas li {
+    margin-bottom: 10px;
+}
+
+.duvidas input {
+    margin-bottom: 10px;
+}
+
+li::marker {
+    color: #012623;
+}
+
+footer form input {
+    text-align: center;
+    background-color: #012623;
+    border: ridge white 1px;
+    border-radius: 3px;
+    padding: 5px 8px;
+    color: white;
+}
+
+footer form button {
+    cursor: pointer;
+    border: ridge white 1px;
+    border-style: hidden;
+    border-radius: 5px;
+    padding: 5px 8px;
+    font-weight: bolder;
+    background-color: #0A8CBF;
+}
+
+
+.contatos li{
+    margin-bottom: 15px;
+}
+
+.contatos div {
+    display: flex;
+    justify-content: space-between;
 }
