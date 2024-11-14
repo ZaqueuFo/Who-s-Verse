@@ -1,16 +1,16 @@
 @font-face {
     font-family: 'DoctorWho';
-    src: url(/fonte/Doctor-Who.ttf)
+    src: url(../fonte/Doctor-Who.ttf)
 }
 
 @font-face {
     font-family: 'DoctorWhoRosto';
-    src: url(/fonte/DOCWHO.TTF)
+    src: url(../fonte/DOCWHO.TTF)
 }
 
 @font-face {
     font-family: 'Gallyfrey';
-    src: url(/fonte/ws_simple_gallifreyan.ttf)
+    src: url(../fonte/ws_simple_gallifreyan.ttf)
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
@@ -36,7 +36,7 @@ a:hover {
 .header {
     font-family: 'DoctorWho';
     color: black;
-    background-color:  #034B61;
+    background-color:  #001F3F;
     display: flex;
     flex-direction: row;
     text-align: center;
@@ -54,8 +54,19 @@ a:hover {
     list-style: none;
 }
 
+.banner {
+    z-index: 1000;
+   height: 700px;
+}
+
 .titulo {
-    background-image: url(../icons/background2.jpg);
+    background-image: url(../icons/d5bff8fe4b2883131e873f1b6f5be391.gif);
+    z-index: 100;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: top center;
+    overflow: hidden;
     background-color: #1D6A96;
     font-family: 'Gallyfrey';
     color: white;
@@ -65,10 +76,13 @@ a:hover {
     align-items: center;
     text-align: center;
     justify-content: center;
-    padding-left: 30px;
-    padding-right: 30px;
     font-size: 25px;
     font-weight: bold;
+}
+
+.slider ul {
+    position: relative;
+    display: flex;
 }
 
 .titulo p {
@@ -87,7 +101,7 @@ a:hover {
 }
 
 .mainContainer {
-    background-color: #034B61;
+    background-color: #000814;
     font-family: 'Rubik', sans-serif;
     color: white;
     padding-top: 100px;
@@ -102,7 +116,7 @@ a:hover {
 }
 
 .tituloZaqueu {
-    background-color: #034B61;
+    background-color: #000814;
     font-family: 'Rubik', sans-serif;
     color: white;
     padding-top: 100px;
@@ -123,7 +137,7 @@ a:hover {
     width: 300px;
 }
 .zaqueu {
-    background-color: #034B61;
+    background-color: #000814;
     font-family: 'Rubik', sans-serif;
     color: white;
     padding-top: 100px;
@@ -149,7 +163,7 @@ footer {
     justify-content: space-around;
     align-items: flex-start;
     color: white;
-    background-color: #012623;
+    background-color: #111111;
     font-size: larger;
     height: fit-content;
 }
