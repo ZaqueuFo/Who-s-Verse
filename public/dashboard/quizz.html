@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who's Verse / Quizz</title>
+    <link rel="stylesheet" href="../css/Quizz.css">
+</head>
+<body>
+    <div class="container">
+        <div class="janela">
+            <div class="header-left">
+                <h1>Who's Verse</h1>
+
+                <div class="hello">
+                    <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+                </div>
+
+                <div class="btn-nav">
+                    <h3>Quizz</h3>
+                </div>
+
+                <div class="btn-nav-white">
+                <a href="./dashboard.html">
+                    <h3>Gráficos</h3>
+                </a>
+                </div>
+
+                <div class="btn-nav-white">
+                    <a href="./cards.html">
+                        <h3>Favorito</h3>
+                    </a>
+                </div>
+
+                <div class="btn-logout" onclick="limparSessao()">
+                    <h3>Sair</h3>
+                </div>
+
+            </div>
+        </div>
+
+        <div id="pontuacaoEJogo">
+            <div class="containerJogo">
+                <button id="btnIniciarQuiz" onclick="iniciarQuiz()">INICIAR QUIZ</button>
+                <div id="pontuacao" class="flex-colunar width-fit-content border-primary">
+                    <div id="pontuacaoDuranteJogo" class="flex-colunar padding-8">
+                        <span class="width-fit-content">Quantidade de acertos: <span id="spanCertas"></span></span>
+                        <span class="width-fit-content">Quantidade de erros: <span id="spanErradas"></span></span>
+                    </div>
+                    <div id="pontuacaoFinalJogo" class="flex-colunar padding-8">
+                        <span id="pontuacaoFinal" class="width-fit-content">Pontuação Final:
+                            <span id="spanPontuacaoFinal">***</span>
+                        </span>
+                        <span id="msgFinal" class="width-fit-content">***</span>
+                    </div>
+                </div>
+                <div id="jogo" class="width-80% flex-colunar border-secondary">
+
+                    <div id="infoQuestao" class="padding-8">
+                        <span>Questão atual: <span id="spanNumeroDaQuestaoAtual"></span> de <span id="qtdQuestoes"></span>
+                            questões.</span>
+                    </div>
+
+                    <div id="perguntaDaQuestaoAtual" class="padding-8">
+                        <span id="spanQuestaoExibida" class="text-bold"></span>
+                    </div>
+
+                    <div id="infoAlternativas" class="padding-8">
+                        <span><em>Escolha uma opção dentre as abaixo:</em></span>
+                    </div>
+
+                    <div id="opcoes" class="flex-colunar padding-8">
+                        <span>
+                            <input type="radio" id="primeiraOpcao" name="option" class="radio" value="alternativaA" />
+                            <label for="primeiraOpcao" class="option" id="labelOpcaoUm"></label>
+                        </span>
+                        <span>
+                            <input type="radio" id="segundaOpcao" name="option" class="radio" value="alternativaB" />
+                            <label for="segundaOpcao" class="option" id="labelOpcaoDois"></label>
+                        </span>
+                        <span>
+                            <input type="radio" id="terceiraOpcao" name="option" class="radio" value="alternativaC" />
+                            <label for="terceiraOpcao" class="option" id="labelOpcaoTres"></label>
+                        </span>
+                        <span>
+                            <input type="radio" id="quartaOpcao" name="option" class="radio" value="alternativaD" />
+                            <label for="quartaOpcao" class="option" id="labelOpcaoQuatro"></label>
+                        </span>
+                    </div>
+
+                    <div id="botoes" class="flex-colunar padding-8">
+                        <button onclick="submeter()" id="btnSubmeter">Submeter resposta</button>
+                        <button onclick="avancar()" id="btnProx" disabled>Avançar para próxima questão</button>
+                        <!-- <button onclick="finalizar()" id="btnConcluir" disabled>Finalizar Quiz</button> -->
+                        <button onclick="tentarNovamente()" id="btnTentarNovamente" disabled>Tentar novamente</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    const listaDeQuestoes = [
+
+        {
+            pergunta: "Os Senhores do Tempo têm a capacidade de regenerar seus corpos após sofrerem ferimentos graves. Na biologia real, qual criatura terrestre tem a capacidade de regenerar partes de seu corpo, como membros ou cauda?",
+            alternativaA: "Cavalo-marinho",
+            alternativaB: "Estrela-do-mar",
+            alternativaC: "Leão-marinho",
+            alternativaD: "Coruja",
+            alternativaCorreta: "alternativaB"
+        },
+
+        {
+            pergunta: "A TARDIS viaja no tempo e no espaço. Na física, qual teoria ajuda a explicar a possibilidade de viagens no tempo, mesmo que ainda não seja viável para humanos?",
+            alternativaA: "Teoria da Relatividade",
+            alternativaB: "Teoria das Cordas",
+            alternativaC: "Termodinâmica Quântica",
+            alternativaD: "Eletricidade e Magnetismo",
+            alternativaCorreta: "alternativaA"
+        },
+
+        {
+            pergunta: "Em The Waters of Mars, a tripulação encontra um vírus alienígena transmitido pela água. Na Terra, qual doença conhecida é frequentemente transmitida por água contaminada?",
+            alternativaA: "Malária",
+            alternativaB: "Cólera",
+            alternativaC: "Sarampo",
+            alternativaD: "Tuberculose",
+            alternativaCorreta: "alternativaB"
+        },
+
+        {
+            pergunta: "O 10º Doutor menciona os tímelocks, que isolam eventos no tempo para impedir interferências. Qual fenômeno da física real pode ser comparado a um bloqueio no tempo ou espaço?",
+            alternativaA: "Singularidade de um buraco negro",
+            alternativaB: "Refração da luz",
+            alternativaC: "Gravidade zero",
+            alternativaD: "Efeito Doppler",
+            alternativaCorreta: "alternativaA"
+        },
+
+        {
+            pergunta: "Os Daleks usam armas de energia que desintegram matéria. Qual partícula subatômica seria mais próxima de explicar um feixe destrutivo de alta energia na física?",
+            alternativaA: "Fótons",
+            alternativaB: "Elétrons",
+            alternativaC: "Nêutrons",
+            alternativaD: "Pósitrons",
+            alternativaCorreta: "alternativaA"
+        },
+
+        {
+            pergunta: "O episódio Kill the Moon explora a ideia de que a Lua seria um ovo alienígena. Cientificamente, qual é a principal função da Lua em relação à Terra?",
+            alternativaA: "Fornecer luz à noite",
+            alternativaB: "Regular o clima global",
+            alternativaC: "Estabilizar o eixo de rotação da Terra",
+            alternativaD: "Proteger a Terra de meteoros",
+            alternativaCorreta: "alternativaC"
+        },
+
+        {
+            pergunta: "Os Cybermen são ciborgues que misturam tecnologia com organismos vivos. Qual avanço real da ciência médica mais se aproxima dessa ideia?",
+            alternativaA: "Vacinas de mRNA",
+            alternativaB: "Impressão 3D de órgãos",
+            alternativaC: "Próteses biônicas",
+            alternativaD: "Terapias genéticas",
+            alternativaCorreta: "alternativaC"
+        },
+
+        {
+            pergunta: "No episódio Blink, os Weeping Angels se movem apenas quando não estão sendo observados. Que princípio físico real se assemelha à ideia de algo ser alterado ao ser observado?",
+            alternativaA: "Princípio da Incerteza de Heisenberg",
+            alternativaB: "Segunda Lei da Termodinâmica",
+            alternativaC: "Lei de Newton",
+            alternativaD: "Efeito Fotoelétrico",
+            alternativaCorreta: "alternativaA"
+        },
+
+        {
+            pergunta: "No episódio The Girl in the Fireplace, o Doutor encontra um portal que conecta a nave espacial ao passado da Terra. Qual fenômeno teórico pode ser comparado a um portal que conecta dois pontos no espaço-tempo?",
+            alternativaA: "Buraco de minhoca",
+            alternativaB: "Efeito túnel quântico",
+            alternativaC: "Paradoxo do avô",
+            alternativaD: "Singularidade gravitacional",
+            alternativaCorreta: "alternativaA"
+        },
+
+        {
+            pergunta: "Os Ood possuem um cérebro secundário fora de seus corpos, conectado por um cordão. Na biologia da Terra, qual animal possui um sistema nervoso descentralizado, com neurônios espalhados pelo corpo?",
+            alternativaA: "Polvo",
+            alternativaB: "Baleia",
+            alternativaC: "Tubarão",
+            alternativaD: "Pinguim",
+            alternativaCorreta: "alternativaA"
+        },
+
+        {
+            pergunta: "Em The Impossible Planet, o Doutor encontra uma base espacial em órbita ao redor de um buraco negro. Qual é o limite ao redor de um buraco negro onde nem mesmo a luz consegue escapar?",
+            alternativaA: "Horizonte de eventos",
+            alternativaB: "Linha de singularidade",
+            alternativaC: "Campo gravitacional",
+            alternativaD: "Dobra temporal",
+            alternativaCorreta: "alternativaA"
+        },
+
+        {
+            pergunta: "Os Vashta Nerada são criaturas que vivem nas sombras. Na biologia terrestre, qual microorganismo real é conhecido por viver em ambientes extremos e sobreviver sem luz?",
+            alternativaA: "Termófilos",
+            alternativaB: "Fungos",
+            alternativaC: "Archaea",
+            alternativaD: "Algas",
+            alternativaCorreta: "alternativaC"
+        },
+
+        {
+            pergunta: "Em Journey to the Center of the TARDIS, o Doutor explora as salas internas infinitas da nave. Na matemática, qual conceito estuda formas e dimensões que podem ser infinitamente complexas ou extensas?",
+            alternativaA: "Geometria fractal",
+            alternativaB: "Álgebra linear",
+            alternativaC: "Cálculo diferencial",
+            alternativaD: "Teoria dos conjuntos",
+            alternativaCorreta: "alternativaA"
+        },
+
+        {
+            pergunta: "Os Silurianos acreditam ser os primeiros habitantes inteligentes da Terra. Na paleontologia, qual foi a primeira forma de vida a surgir no planeta?",
+            alternativaA: "Microrganismos unicelulares",
+            alternativaB: "Répteis primitivos",
+            alternativaC: "Plantas aquáticas",
+            alternativaD: "Dinossauros",
+            alternativaCorreta: "alternativaA"
+        },
+
+        {
+            pergunta: "No episódio Vincent and the Doctor, o Doutor encontra um monstro invisível. Qual tecnologia real pode detectar objetos invisíveis ao olho humano?",
+            alternativaA: "Infravermelho",
+            alternativaB: "Ultrassom",
+            alternativaC: "Micro-ondas",
+            alternativaD: "Raio-X",
+            alternativaCorreta: "alternativaA"
+        },
+
+        {
+            pergunta: "Os Time Lords possuem tecnologia que lhes permite viver centenas de anos. Qual organismo real tem uma longevidade excepcionalmente longa?",
+            alternativaA: "Tardígrados",
+            alternativaB: "Esponjas marinhas",
+            alternativaC: "Golfinhos",
+            alternativaD: "Elefantes",
+            alternativaCorreta: "alternativaB"
+        },
+
+        {
+            pergunta: "No episódio 42, uma estrela viva ameaça a tripulação de uma nave. Qual elemento químico é a principal fonte de energia em estrelas como o Sol?",
+            alternativaA: "Hidrogênio",
+            alternativaB: "Hélio",
+            alternativaC: "Carbono",
+            alternativaD: "Oxigênio",
+            alternativaCorreta: "alternativaA"
+        },
+
+        {
+            pergunta: "Os Zygons podem mudar sua aparência para se parecerem com humanos. Na biologia, qual animal terrestre é conhecido por mudar rapidamente de cor para se camuflar?",
+            alternativaA: "Camaleão",
+            alternativaB: "Polvo",
+            alternativaC: "Sapo",
+            alternativaD: "Cobra",
+            alternativaCorreta: "alternativaA"
+        }
+
+    ]
+
+    // variáveis globais    
+    let numeroDaQuestaoAtual = 0
+    let pontuacaoFinal = 0
+    let tentativaIncorreta = 0
+    let certas = 0
+    let erradas = 0
+    let quantidadeDeQuestoes = listaDeQuestoes.length
+    // let isUltima = numeroDaQuestaoAtual == quantidadeDeQuestoes-1 ? true : false
+
+    function onloadEsconder() {
+        document.getElementById('pontuacao').style.display = "none"
+        document.getElementById('jogo').style.display = "none"
+    }
+
+    function iniciarQuiz() {
+        document.getElementById('pontuacao').style.display = "flex"
+        document.getElementById('jogo').style.display = "flex"
+        document.getElementById('btnIniciarQuiz').style.display = "none"
+
+        document.getElementById('qtdQuestoes').innerHTML = quantidadeDeQuestoes
+
+        preencherHTMLcomQuestaoAtual(0)
+
+        btnSubmeter.disabled = false
+        btnProx.disabled = true
+        // btnConcluir.disabled = true
+        btnTentarNovamente.disabled = true
+    }
+
+    function preencherHTMLcomQuestaoAtual(index) {
+        habilitarAlternativas(true)
+        const questaoAtual = listaDeQuestoes[index]
+        numeroDaQuestaoAtual = index
+        console.log("questaoAtual")
+        console.log(questaoAtual)
+        document.getElementById("spanNumeroDaQuestaoAtual").innerHTML = Number(index) + 1 // ajustando porque o index começa em 0
+        document.getElementById("spanQuestaoExibida").innerHTML = questaoAtual.pergunta;
+        document.getElementById("labelOpcaoUm").innerHTML = questaoAtual.alternativaA;
+        document.getElementById("labelOpcaoDois").innerHTML = questaoAtual.alternativaB;
+        document.getElementById("labelOpcaoTres").innerHTML = questaoAtual.alternativaC;
+        document.getElementById("labelOpcaoQuatro").innerHTML = questaoAtual.alternativaD;
+    }
+
+    function submeter() {
+        const options = document.getElementsByName("option"); // recupera alternativas no html
+
+        let hasChecked = false
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].checked) {
+                hasChecked = true
+                break
+            }
+        }
+
+        if (!hasChecked) {
+            alert("Não há alternativas escolhidas. Escolha uma opção.")
+        } else {
+            btnSubmeter.disabled = true
+            btnProx.disabled = false
+
+            habilitarAlternativas(false)
+
+            checarResposta()
+        }
+    }
+
+    function habilitarAlternativas(trueOrFalse) {
+        let opcaoEscolhida = trueOrFalse ? false : true
+
+        primeiraOpcao.disabled = opcaoEscolhida
+        segundaOpcao.disabled = opcaoEscolhida
+        terceiraOpcao.disabled = opcaoEscolhida
+        quartaOpcao.disabled = opcaoEscolhida
+
+    }
+
+    function avancar() {
+        btnProx.disabled = true
+        btnSubmeter.disabled = false
+
+        desmarcarRadioButtons()
+
+        if (numeroDaQuestaoAtual < quantidadeDeQuestoes - 1) {
+            preencherHTMLcomQuestaoAtual(numeroDaQuestaoAtual)
+        } else if (numeroDaQuestaoAtual == quantidadeDeQuestoes - 1) {
+            alert("Atenção... a próxima é a ultima questão!")
+            preencherHTMLcomQuestaoAtual(numeroDaQuestaoAtual)
+        } else {
+            finalizarJogo()
+        }
+        limparCoresBackgroundOpcoes()
+    }
+
+    function tentarNovamente() {
+        // atualiza a página
+        window.location.reload()
+    }
+
+    function checarResposta() {
+        const questaoAtual = listaDeQuestoes[numeroDaQuestaoAtual] // questão atual 
+        const respostaQuestaoAtual = questaoAtual.alternativaCorreta // qual é a resposta correta da questão atual
+
+        const options = document.getElementsByName("option"); // recupera alternativas no html
+
+        let alternativaCorreta = null // variável para armazenar a alternativa correta
+
+        options.forEach((option) => {
+            if (option.value === respostaQuestaoAtual) {
+                console.log("alternativaCorreta está no componente: " + alternativaCorreta)
+                alternativaCorreta = option.labels[0].id
+            }
+        })
+
+        // verifica se resposta assinalada é correta
+        options.forEach((option) => {
+            if (option.checked === true && option.value === respostaQuestaoAtual) {
+                document.getElementById(alternativaCorreta).classList.add("text-success-with-bg")
+                pontuacaoFinal++
+                certas++
+                document.getElementById("spanCertas").innerHTML = certas
+                numeroDaQuestaoAtual++
+            } else if (option.checked && option.value !== respostaQuestaoAtual) {
+                const wrongLabelId = option.labels[0].id
+
+                document.getElementById(wrongLabelId).classList.add("text-danger-with-bg")
+                document.getElementById(alternativaCorreta).classList.add("text-success-with-bg")
+                tentativaIncorreta++
+                erradas++
+                document.getElementById("spanErradas").innerHTML = erradas
+                numeroDaQuestaoAtual++
+            }
+        })
+    }
+
+    function limparCoresBackgroundOpcoes() {
+        const options = document.getElementsByName("option");
+        options.forEach((option) => {
+            document.getElementById(option.labels[0].id).classList.remove("text-danger-with-bg")
+            document.getElementById(option.labels[0].id).classList.remove("text-success-with-bg")
+        })
+    }
+
+    function desmarcarRadioButtons() {
+        const options = document.getElementsByName("option");
+        for (let i = 0; i < options.length; i++) {
+            options[i].checked = false;
+        }
+    }
+
+    function finalizarJogo() {
+        let textoParaMensagemFinal = null
+        let classComCoresParaMensagemFinal = null
+        const porcentagemFinalDeAcertos = pontuacaoFinal / quantidadeDeQuestoes
+
+        if (porcentagemFinalDeAcertos <= 0.3) {
+            textoParaMensagemFinal = "Parece que você não estudou..."
+            classComCoresParaMensagemFinal = "text-danger-with-bg"
+        }
+        else if (porcentagemFinalDeAcertos > 0.3 && porcentagemFinalDeAcertos < 0.9) {
+            textoParaMensagemFinal = "Pode melhorar na próxima, hein!"
+            classComCoresParaMensagemFinal = "text-warning-with-bg"
+        }
+        else if (porcentagemFinalDeAcertos >= 0.9) {
+            textoParaMensagemFinal = "Uau, parabéns!"
+            classComCoresParaMensagemFinal = "text-success-with-bg"
+        }
+
+        textoParaMensagemFinal += "<br> Você acertou " + Math.round((porcentagemFinalDeAcertos)*100) + "% das questões."
+
+
+        document.getElementById('msgFinal').innerHTML = textoParaMensagemFinal
+        document.getElementById('msgFinal').classList.add(classComCoresParaMensagemFinal) 
+        document.getElementById('spanPontuacaoFinal').innerHTML = pontuacaoFinal
+
+        document.getElementById('jogo').classList.add("text-new-gray") 
+
+        btnProx.disabled = true
+        btnSubmeter.disabled = true
+        // btnConcluir.disabled = true
+        btnTentarNovamente.disabled = false
+    }
+</script>

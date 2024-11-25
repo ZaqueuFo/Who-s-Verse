@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Who's Verse | Favorito</title>
+
+
+    <link rel="stylesheet" href="./../css/dashboards.css">
+    <link rel="stylesheet" href="./../css/estilo.css" />
+
+    <script src="../js/sessao.js"></script>
+    <script src="../js/alerta.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body style="background-color: #000814;">
+    <div class="janela">
+        <div class="header-left">
+            <h1>Who's Verse</h1>
+
+            <div class="hello">
+                <h3>Olá, <span id="b_usuario">usuário</span>!</h3>
+            </div>
+
+            <div class="btn-nav-white">
+            <a href="./quizz.html">
+                <h3>Quizz</h3>
+            </a>
+            </div>
+
+            <div class="btn-nav-white">
+            <a href="./dashboard.html">
+                <h3>Gráficos</h3>
+            </a>
+            </div>
+
+            <div class="btn-nav">
+                <a href="#">
+                    <h3>Favorito</h3>
+                </a>
+            </div>
+
+            <div class="btn-logout" onclick="limparSessao()">
+                <h3>Sair</h3>
+            </div>
+
+        </div>
+    </div>
+
+        <div class="dash">
+            <div id="alerta">
+            </div>
+            <div class="area-parametros-alerta">
+                <p class="titulo-legenda">
+                    <h1>Selecione seu Doutor Favorito:</h1>
+                </p>
+            </div>
+
+            <div class="doutor">
+                    <div class="custom-select">
+                        <select id="slt_doutor" onchange="mudar()">
+                            <option value="#" selected>Selecione um Doutor</option>
+                            <option value="1">Primeiro Doutor</option>
+                            <option value="2">Segundo Doutor</option>
+                            <option value="3">Terceiro Doutor</option>
+                            <option value="4">Quarto Doutor</option>
+                            <option value="5">Quinto Doutor</option>
+                            <option value="6">Sexto Doutor</option>
+                            <option value="7">Sétimo Doutor</option>
+                            <option value="8">Oitavo Doutor</option>
+                            <option value="9">Nono Doutor</option>
+                            <option value="10">Décimo Doutor</option>
+                            <option value="11">Décimo primeiro Doutor</option>
+                            <option value="12">Décimo segundo Doutor</option>
+                            <option value="13">Décimo terceiro Doutor</option>
+                            <option value="14">Décimo quarto Doutor</option>
+                        </select>
+                        <div class="select-arrow"></div>
+                    </div>
+                <br> <br> 
+                <div id="div_doutor"></div> <br> <br>
+                <button onclick="doutor()">Escolho esse</button>
+
+                
+            </div>    
+    </div>
+
+</body>
+
+<script>
+
+    function mudar() {
+        var doutor = slt_doutor.value;
+
+        if(doutor == '1') {
+            div_doutor.innerHTML = `<img src="../assets/carrocel/Frame 14.png" style="width: 50%; height: 50%;">`
+        } else if(doutor == '2') {
+            div_doutor.innerHTML = `<img src="../assets/carrocel/Frame 2.png" style="width: 50%; height: 50%;">`
+        } else if (doutor == '3') {
+            div_doutor.innerHTML = `<img src="../assets/carrocel/Frame 1.png" style="width: 50%; height: 50%;">`
+        } else if (doutor == '4') {
+            div_doutor.innerHTML = `<img src="../assets/carrocel/Frame 5.png" style="width: 50%; height: 50%;">`
+        } else if (doutor == '5') {
+            div_doutor.innerHTML = `<img src="../assets/carrocel/Frame 3.png" style="width: 50%; height: 50%;">`
+        } else if (doutor == '6') {
+            div_doutor.innerHTML = `<img src="../assets/carrocel/Frame 8.png" style="width: 50%; height: 50%;">`
+        } else if (doutor == '7') {
+            div_doutor.innerHTML = `<img src="../assets/carrocel/Frame 7.png" style="width: 50%; height: 50%;">`
+        } else if (doutor == '8') {
+            div_doutor.innerHTML = `<img src="../assets/carrocel/Frame 4.png" style="width: 50%; height: 50%;">`
+        } else if (doutor == '9') {
+            div_doutor.innerHTML = `<img src="../assets/carrocel/Frame 6.png" style="width: 50%; height: 50%;">`
+        } else if (doutor == '10') {
+            div_doutor.innerHTML = `<img src="../assets/carrocel/Frame 9.png" style="width: 50%; height: 50%;">`
+        } else if (doutor == '11') {
+            div_doutor.innerHTML = `<img src="../assets/carrocel/Frame 10.png" style="width: 50%; height: 50%;">`
+        } else if (doutor == '12') {
+            div_doutor.innerHTML = `<img src="../assets/carrocel/Frame 11.png" style="width: 50%; height: 50%;">`
+        } else if (doutor == '13') {
+            div_doutor.innerHTML = `<img src="../assets/carrocel/Frame 12.png" style="width: 50%; height: 50%;">`
+        } else if (doutor == '14') {
+            div_doutor.innerHTML = `<img src="../assets/carrocel/Frame 13.png" style="width: 50%; height: 50%;">`
+        } else {
+            return;
+        }
+    }
+
+    function doutor() {
+        var doutorVar = slt_doutor.value;
+        var idUsuarioVar = sessionStorage.ID_USUARIO;
+
+        if (
+        doutorVar == '#'
+        ) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML =
+            "(Mensagem de erro para todos os campos em branco)";
+        return false;
+        } else {
+        
+        }
+      
+        fetch("/usuarios/doutor", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            doutorServer: doutorVar,
+            idUsuarioServer: idUsuarioVar
+        }),
+        })
+        .then(function (resposta) {
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                
+            } 
+        })
+        .catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+            finalizarAguardar();
+        });
+
+        return false;
+    }
+
+
+</script>
+
+</html>
