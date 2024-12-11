@@ -6,57 +6,50 @@
 comandos para mysql server
 */
 
-CREATE DATABASE aquatech;
-
-USE aquatech;
-
-CREATE TABLE empresa (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	razao_social VARCHAR(50),
-	cnpj CHAR(14),
-	codigo_ativacao VARCHAR(50)
-);
+CREATE database WhosVerse;
+USE WhosVerse;
 
 CREATE TABLE usuario (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50),
-	email VARCHAR(50),
-	senha VARCHAR(50),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
+idUsuario int primary key auto_increment,
+cpf char(11),
+nome varchar(45),
+email varchar(45),
+senha varchar(45),
+fkDoutor int,
+FOREIGN KEY (fkDoutor) REFERENCES doutores(idDoutores)
 );
 
-CREATE TABLE aviso (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	titulo VARCHAR(100),
-	descricao VARCHAR(150),
-	fk_usuario INT,
-	FOREIGN KEY (fk_usuario) REFERENCES usuario(id)
+CREATE TABLE doutores (
+idDoutores int primary key auto_increment,
+nome varchar(45),
+fkUsuario int
 );
 
-create table aquario (
-/* em nossa regra de negócio, um aquario tem apenas um sensor */
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	descricao VARCHAR(300),
-	fk_empresa INT,
-	FOREIGN KEY (fk_empresa) REFERENCES empresa(id)
-);
+INSERT INTO doutores (nome) VALUES
+('William Hartnell'),
+('Patrick Troughton'),
+('Jon Pertwee'),
+('Tom Baker'),
+('Peter Davison'),
+('Colin Baker'),
+('Sylvester McCoy'),
+('Paul McGann'),
+('Christopher Eccleston'),
+('David Tennant'),
+('Matt Smith'),
+('Peter Capaldi'),
+('Jodie Whittaker'),
+('David Tennant'); 
 
-/* esta tabela deve estar de acordo com o que está em INSERT de sua API do arduino - dat-acqu-ino */
-
-create table medida (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	dht11_umidade DECIMAL,
-	dht11_temperatura DECIMAL,
-	luminosidade DECIMAL,
-	lm35_temperatura DECIMAL,
-	chave TINYINT,
-	momento DATETIME,
-	fk_aquario INT,
-	FOREIGN KEY (fk_aquario) REFERENCES aquario(id)
-);
-
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 1', 'ED145B');
-insert into empresa (razao_social, codigo_ativacao) values ('Empresa 2', 'A1B2C3');
-insert into aquario (descricao, fk_empresa) values ('Aquário de Estrela-do-mar', 1);
-insert into aquario (descricao, fk_empresa) values ('Aquário de Peixe-dourado', 2);
+SELECT d.nome AS doutor, COUNT(u.fkDoutor) AS votos
+        FROM usuario u
+        JOIN doutores d ON u.fkDoutor = d.idDoutores
+        GROUP BY d.nome
+        ORDER BY votos DESC;
+        
+SELECT d.nome AS doutor, 
+       COUNT(u.fkDoutor) AS votos
+FROM doutores d
+LEFT JOIN usuario u ON u.fkDoutor = d.idDoutores
+GROUP BY d.nome
+ORDER BY votos DESC;   

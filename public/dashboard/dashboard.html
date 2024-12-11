@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="./../css/dashboards.css">
     <link rel="stylesheet" href="./../css/estilo.css" />
     <script src="../js/sessao.js"></script>
-    <script src="./../js/alerta.js"></script>
+    
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link
@@ -111,21 +111,23 @@ function carregarRanking() {
     });
 }
 
+
+
 function plotarGrafico(dados) {
     const nomes = dados.map(item => item.doutor);
     const votos = dados.map(item => item.votos);
 
     const ctx = document.getElementById('myChart').getContext('2d');
     new Chart(ctx, {
-        type: 'bar', // Tipo de gráfico: barra
+        type: 'bar',
         data: {
             labels: nomes,
             datasets: [{
                 label: 'Votos por Doutor',
                 data: votos,
-                backgroundColor: 'rgba(54, 162, 235, 0.7)', // Cor de fundo mais intensa
-                borderColor: 'rgba(54, 162, 235, 1)', // Cor da borda
-                borderWidth: 2, // Largura da borda
+                backgroundColor: 'rgba(54, 162, 235, 0.7)', 
+                borderColor: 'rgba(54, 162, 235, 1)', 
+                borderWidth: 2, 
                 hoverBackgroundColor: 'rgba(54, 162, 235, 1)', // Cor ao passar o mouse
                 hoverBorderColor: 'rgba(54, 162, 235, 1)', // Cor da borda ao passar o mouse
             }]
@@ -181,7 +183,20 @@ function plotarGrafico(dados) {
             }
         }
     });
+    fetch('', {
+        method:"GET",
+        headers: {
+            "Autorization": `Bearer ${código}`
+        },
+        body: JSON.stringify({
+            titulo: 'teste',
+            descricao:"123143"
+        })
+    })
 }
+
+
+
 
 
 </script>

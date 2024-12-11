@@ -32,7 +32,7 @@ function doutor(doutor, idUsuario) {
 
 function listarRanking() {
     var instrucaoSql = `
-        SELECT d.nome AS doutor, 
+       SELECT d.nome AS doutor, 
        COUNT(u.fkDoutor) AS votos
        FROM doutores d
        LEFT JOIN usuario u ON u.fkDoutor = d.idDoutores
