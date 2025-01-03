@@ -13,12 +13,18 @@ function validarSessao() {
     }
 }
 
+// Serve para limpar o session storage e enviar para a tela de login quando o usuario deseja sair
+function limparSessao() {
+    sessionStorage.clear();
+    window.location = "../login.html";
+}
 
 // carregamento (loading)
 function aguardar() {
     var divAguardar = document.getElementById("div_aguardar");
     divAguardar.style.display = "flex";
 }
+
 
 // Essa função é chamada caso tenha algum erro nos dados
 function finalizarAguardar(texto) {

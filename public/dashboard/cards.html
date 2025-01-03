@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
+<!-- Essa é a tela que carrega assim que você efetua o login, aqui você consegue selecionar o seu doutor favorito e fazer uma votação -->
 <head>
     <link rel="shortcut icon" href="../assets/icon/favicon2.ico" type="image/x-icon">
     <meta charset="UTF-8">
@@ -20,6 +20,7 @@
 </head>
 
 <body style="background-color: #000814;">
+    <!-- Navbar após efetuar o login -->
     <div class="janela">
         <div class="header-left">
             <h1>Who's Verse</h1>
@@ -61,7 +62,7 @@
                     <h1>Selecione seu Doutor Favorito:</h1>
                 </p>
             </div>
-
+            <!-- Aqui você seleciona qual o seu doutor favorito -->
             <div class="doutor">
                     <div class="custom-select">
                         <select id="slt_doutor" onchange="mudar()">
@@ -94,7 +95,7 @@
 </body>
 
 <script>
-
+    // Essa função serve para que apareça imagens explicando qual o doutor ele está escolhendo de acordo com o que ele seleciona no select
     function mudar() {
         var doutor = slt_doutor.value;
 
@@ -132,6 +133,7 @@
     }
 
     function doutor() {
+        // Essa função pega o voto que o usuário fez junto com o seu id salvo e utilizando o método post ele envia para o routes para posteriormente fazer a inserção no banco de dados
         var doutorVar = slt_doutor.value;
         var idUsuarioVar = sessionStorage.ID_USUARIO;
 
