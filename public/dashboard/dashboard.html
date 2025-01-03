@@ -63,7 +63,7 @@
 
         </div>
     </div>
-
+    <!-- Aqui é aonde o ranking dos personagens será mostrado -->
         <div class="dash">
             <div id="alerta">
             </div>
@@ -75,11 +75,6 @@
             <div class="graph">
                 <canvas id="myChart"></canvas>
             </div>
-            <!-- <div class="container_kpi">
-                <div class="kpi"></div>
-                <div class="kpi"></div>
-                <div class="kpi"></div>
-            </div> -->
        </div>
         
     </div>
@@ -92,6 +87,7 @@
 </html>
 
 <script>
+// Essa função utiliza o método get para puxar informação do banco de dados lembrando que todas as funções estão sendo executadas no onload da página
 function carregarRanking() {
     fetch("/usuarios/ranking", {
         method: "GET",
@@ -112,7 +108,7 @@ function carregarRanking() {
 }
 
 
-
+// Depois de pegar os dados na função carregarRanking essa função coloca esses dados na dashboard que está sendo exibida
 function plotarGrafico(dados) {
     const nomes = dados.map(item => item.doutor);
     const votos = dados.map(item => item.votos);
@@ -183,16 +179,6 @@ function plotarGrafico(dados) {
             }
         }
     });
-    fetch('', {
-        method:"GET",
-        headers: {
-            "Autorization": `Bearer ${código}`
-        },
-        body: JSON.stringify({
-            titulo: 'teste',
-            descricao:"123143"
-        })
-    })
 }
 
 
