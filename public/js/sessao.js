@@ -1,4 +1,5 @@
 // sessão
+// Aqui é validado se o usuário está logado, salvando o email e o nome no sessionStorage
 function validarSessao() {
     var email = sessionStorage.EMAIL_USUARIO;
     var nome = sessionStorage.NOME_USUARIO;
@@ -12,10 +13,6 @@ function validarSessao() {
     }
 }
 
-function limparSessao() {
-    sessionStorage.clear();
-    window.location = "../login.html";
-}
 
 // carregamento (loading)
 function aguardar() {
@@ -23,6 +20,7 @@ function aguardar() {
     divAguardar.style.display = "flex";
 }
 
+// Essa função é chamada caso tenha algum erro nos dados
 function finalizarAguardar(texto) {
     var divAguardar = document.getElementById("div_aguardar");
     divAguardar.style.display = "none";

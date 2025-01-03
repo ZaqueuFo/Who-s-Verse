@@ -8,9 +8,10 @@
     <link rel="icon" href="./assets/icons/doctor who logo.gif">
 </head>
 <body>
+    <!-- Navbar -->
     <div class="header">
         <div class="container">
-          <img src="./assets/icons/doctor who logo.gif" 
+          <img src="./assets/icons/doctor who logo.gif">
           <ul class="navbar">
             <li>
               <a href="index.html">Home</a>
@@ -28,7 +29,7 @@
           </ul>
         </div>
     </div>
-
+    <!-- Banner Principal -->
     <div class="main">
         <div class="banner">
             <div class="titulo">
@@ -49,7 +50,7 @@
            O Doutor é um personagem que busca a justiça e "curar" o universo de seus males. Como ninguém sabe seu nome, <br>
            a pergunta constante é:"Doutor quem?" (em inglês, "Doctor who?").</p>
     </div>
-
+    <!-- Slider com todos os doutores -->
     <section class="sessao">
         <h2>Doutores</h2>
         <div class="slider">
@@ -74,7 +75,7 @@
         </div>
     </section>
 
-
+    <!-- Parte Sobre mim -->
     <div class="tituloZaqueu">
         <h1 id="h1_sobre">Sobre mim:</h1>
     </div>   
@@ -89,15 +90,8 @@
         com outros olhos essa matéria, esse foi meu contato com a série. <br>
         Planejo utilizar esse projeto para mostrar mais sobre a série, com minigames e gráficos.</p>
     </div>
-    <!-- <div class="doutor">
-        <h1>Doutores:</h1>
 
-        <select id="ipt_doutor" class="input">
-            <option value="javascript">JavaScript</option>
-            <option value="html">HTML5</option>
-            <option value="css">CSS3</option>
-        </select>
-    </div> -->
+    <!-- Footer -->
     <footer>
         <img src="./assets/icons/footerDalek-removebg-preview.png">
         <menu class="menu">
@@ -117,18 +111,25 @@
 </body>
 </html>
 <script>
-    var imagem = document.querySelectorAll(".doutor");
+
+// Função do slider
+
+var imagem = document.querySelectorAll(".doutor");
 var posicao = 0;
+// Aqui eu pego todas as imagens com a classe doutor dentro da variavel imagem
+
 
 function esconder() {
     for(var i = 0; i < imagem.length; i++) {
         imagem[i].classList.remove('on');
     }
 }
+// A função esconder retira a classe on da imagem que está aparecendo fazendo que a opacidade dela seja 0 em seguida
 
 function mostrar() {
    imagem[posicao].classList.add('on');
 }
+// A função mostrar adiciona a classe on na imagem que está aparecendo no momento assim dando opacidade para que ela apareça
 
 function voltar() {
     esconder();
@@ -139,6 +140,7 @@ function voltar() {
     }
     mostrar();
 }
+// A função voltar acontece no momento que clico na seta para ir na imagem anterior, ela puxa a função esconder para tirar a imagem que estava em display e depois chama a função mostrar para mostrar uma imagem diferente
 
 function avancar() {
     esconder()
@@ -149,4 +151,6 @@ function avancar() {
     }
     mostrar();
 }
+
+// A função avançar faz a mesma coisa que o voltar só que ela avança ao invés de voltar
 </script>

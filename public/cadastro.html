@@ -38,7 +38,7 @@
     </div>
   </div>
   <!--header fim-->
-
+  <!-- Aqui é o começo do campo de cadastro, cotendo uma div de card_erro que gera um card mostrando uma imagem de erro caso algo de errado -->
   <div class="login">
     <div class="alerta_erro">
       <div class="card_erro" id="cardErro">
@@ -46,13 +46,10 @@
       </div>
     </div>
     <div class="container">
+
       <div class="card card-cadastro">
         <h2>Bem-vindo!</h2>
         <div class="formulario">
-          <!--
-                         Para inserir mais um campo, copie uma das inputs abaixo.
-                         Assim que inserir vá para o script abaixo.
-                     -->
           <div class="campo">
             <span>Nome:</span>
             <input id="nome_input" type="text" placeholder="Seu nome" />
@@ -93,13 +90,10 @@
 
 <script>
 
-  // Array para armazenar empresas cadastradas para validação de código de ativação 
 
   function cadastrar() {
-    // aguardar();
 
-    //Recupere o valor da nova input pelo nome do id
-    // Agora vá para o método fetch logo abaixo
+    // Pega todos os valores dos inputs que o cliente vai preencher
     var nomeVar = nome_input.value;
     var emailVar = email_input.value;
     var senhaVar = senha_input.value;
@@ -132,17 +126,15 @@
     } else {
     setInterval(sumirMensagem, 5000);
     }
-    // Verificando se o código de ativação é de alguma empresa cadastrada
+    
 
-    // Enviando o valor da nova input
+    // Esse é um fetch que pega tudo que os usuários preencheu caso não de erro e envia para as rotas
     fetch("/usuarios/cadastrar", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        // crie um atributo que recebe o valor recuperado aqui
-        // Agora vá para o arquivo routes/usuario.js
         nomeServer: nomeVar,
         emailServer: emailVar,
         senhaServer: senhaVar,

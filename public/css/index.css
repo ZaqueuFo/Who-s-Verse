@@ -277,9 +277,6 @@ a:hover {
 }
 
 
-.input {
-
-}
 
 /* Footer */
 footer {
@@ -299,7 +296,7 @@ footer img {
     position: absolute;
 }
 
-footer menu {
+footer .menu {
     text-align: center;
     padding-top: 50px;
     list-style: none;
@@ -310,7 +307,13 @@ footer menu {
     flex-direction: row;
 }
 
-footer menu li {
+.menu a {
+    color: white;
+    text-decoration: none;
+}
+
+
+footer .menu li {
     color: white;
     margin: 10px;
 }
@@ -333,9 +336,6 @@ footer form {
     margin-bottom: 10px;
 }
 
-li::marker {
-    color: #012623;
-}
 
 footer form input {
     text-align: center;
