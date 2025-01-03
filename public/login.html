@@ -8,6 +8,7 @@
 
     <title>Who's Verse | Login</title>
 
+    <!-- o script da sessao.js está aqui para salvar os dados preenchidos -->
     <script src="./js/sessao.js"></script>
 
     <link rel="stylesheet" href="./css/estilo.css" />
@@ -75,25 +76,18 @@
    
     </div>
 
-    <!--footer inicio-->
-    <!-- <div class="footer">
-        <div class="container">
-            <h4>Feito com amor por aluno &hearts; SPTech &copy; 2023</h4>
-            <span class="version">v1.0.0</span>
-        </div>
-    </div> -->
-    <!--footer fim-->
+
 </body>
 
 </html>
 
 <script>
-
+// Audio para quando o login for efetuado
 var tardis = new Audio();
 tardis.src = './assets/audio/tardissound_e294d2cc5060893.mp3'
     function entrar() {
+        //No começo da função é feita uma validação dos campos
         aguardar();
-
         var emailVar = email_input.value;
         var senhaVar = senha_input.value;
 
@@ -111,6 +105,7 @@ tardis.src = './assets/audio/tardissound_e294d2cc5060893.mp3'
         console.log("FORM LOGIN: ", emailVar);
         console.log("FORM SENHA: ", senhaVar);
 
+        // Um fetch de método post para trazer o email e a senha preenchidos para fazer uma comparação com o banco de dados para ver se o login é válido
         fetch("/usuarios/autenticar", {
             method: "POST",
             headers: {
@@ -125,14 +120,13 @@ tardis.src = './assets/audio/tardissound_e294d2cc5060893.mp3'
 
             if (resposta.ok) {
                 console.log(resposta);
-
+                // Aqui ele salva no sessionStorage o email, nome e o id do usuário que está logando
                 resposta.json().then(json => {
                     console.log(json);
                     console.log(JSON.stringify(json));
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
                     sessionStorage.ID_USUARIO = json.id;
-                    sessionStorage.AQUARIOS = JSON.stringify(json.aquarios)
 
                     setTimeout(function () {
                         window.location = "./dashboard/cards.html";
