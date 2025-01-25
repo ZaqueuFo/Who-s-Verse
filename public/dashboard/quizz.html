@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Who's Verse / Quizz</title>
     <link rel="stylesheet" href="../css/Quizz.css">
+    <script src="../js/sessao.js"></script>
 </head>
 <body>
     <div class="container">
@@ -308,8 +309,32 @@
                 erradas++
                 document.getElementById("spanErradas").innerHTML = erradas
                 numeroDaQuestaoAtual++
-            }
-        })
+                const questaoAtual = listaDeQuestoes[numeroDaQuestaoAtual].pergunta;
+                var idUsuarioVar = sessionStorage.ID_USUARIO;
+
+                fetch("/quiz/cadastrar", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    questaoAtualServer: questaoAtualVar,
+                    idUsuarioServer: idUsuarioVar
+                }),
+                })
+                .then(function (resposta) {
+                    console.log("resposta: ", resposta);
+
+                    if (resposta.ok) {
+                        
+                    } 
+                })
+                .catch(function (resposta) {
+                    console.log(`#ERRO: ${resposta}`);
+                    finalizarAguardar();
+                });
+                    }
+                })
     }
 
     function limparCoresBackgroundOpcoes() {
