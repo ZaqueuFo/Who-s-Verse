@@ -3,9 +3,9 @@ var router = express.Router();
 
 var quizController = require("../controllers/quizController");
 
-router.post("/quiz", function (req, res) {
-    quizController.cadastrar(req, res);
-})
+router.post("/quizz", function (req, res) {
+    quizController.quizz(req, res);
+});
 
 
 

@@ -278,6 +278,7 @@
     }
 
     function checarResposta() {
+        var idUsuarioVar = sessionStorage.ID_USUARIO;
         const questaoAtual = listaDeQuestoes[numeroDaQuestaoAtual] // questão atual 
         const respostaQuestaoAtual = questaoAtual.alternativaCorreta // qual é a resposta correta da questão atual
 
@@ -309,16 +310,15 @@
                 erradas++
                 document.getElementById("spanErradas").innerHTML = erradas
                 numeroDaQuestaoAtual++
-                const questaoAtual = listaDeQuestoes[numeroDaQuestaoAtual].pergunta;
-                var idUsuarioVar = sessionStorage.ID_USUARIO;
-
-                fetch("/quiz/cadastrar", {
+                var numeroDaQuestaoAtualVar = String(numeroDaQuestaoAtual);
+                
+                fetch("/quiz/quizz", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    questaoAtualServer: questaoAtualVar,
+                    questaoAtualServer: numeroDaQuestaoAtualVar,
                     idUsuarioServer: idUsuarioVar
                 }),
                 })

@@ -1,13 +1,13 @@
 var quizModel = require("../models/quizModel");
 
-function doutor(req, res) {
-    var questaoAtual = req.body.questaoAtualServer;
+function quizz(req, res) {
+    var numeroDaQuestaoAtual = req.body.questaoAtualServer;
     var idUsuario = req.body.idUsuarioServer;
     console.log(req.body);
-    if (doutor == undefined) {
-        res.status(400).send("Seu nome está undefined!");
+    if (quizz == undefined) {
+        res.status(400).send("Nada foi salvo");
     } else {
-        quizModel.doutor(questaoAtual, idUsuario)
+        quizModel.cadastrar(numeroDaQuestaoAtual, idUsuario)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -24,3 +24,7 @@ function doutor(req, res) {
             );
     }
 }
+
+module.exports = {
+  quizz
+};
