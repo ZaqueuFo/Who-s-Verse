@@ -9,6 +9,18 @@ function cadastrar(questaoAtualServer, idUsuario) {
     return database.executar(instrucaoSql);
 }
 
+function puxarDados() {
+    var instrucaoSql = `
+       SELECT fkPergunta, COUNT(*) AS total_erros
+       FROM erros_quizz
+       GROUP BY fkPergunta
+       ORDER BY total_erros DESC;  
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 module.exports = {
     cadastrar,
+    puxarDados
 };

@@ -6,8 +6,9 @@
     <title>Who's Verse / Quizz</title>
     <link rel="stylesheet" href="../css/Quizz.css">
     <script src="../js/sessao.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
+<body onload="puxarDados()">
     <div class="container">
         <div class="janela">
             <div class="header-left">
@@ -26,7 +27,7 @@
                     <h3>Gráficos</h3>
                 </a>
                 </div>
-                <h1>ola pessoas do youtube, me chamo Zaqueu Chavier</h1>
+                
 
                 <div class="btn-nav-white">
                     <a href="./cards.html">
@@ -96,8 +97,11 @@
                         <!-- <button onclick="finalizar()" id="btnConcluir" disabled>Finalizar Quiz</button> -->
                         <button onclick="tentarNovamente()" id="btnTentarNovamente" disabled>Tentar novamente</button>
                     </div>
-
                 </div>
+                
+            </div>
+            <div class="graph">
+                <canvas id="myChart"></canvas>
             </div>
         </div>
     </div>
@@ -384,4 +388,98 @@
         // btnConcluir.disabled = true
         btnTentarNovamente.disabled = false
     }
+
+    function puxarDados() {
+    fetch("/quiz/puxarDados", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+        if (resposta.ok) {
+            resposta.json().then(function (dados) {
+                plotarGrafico(dados);
+            });
+        } else {
+            console.error("Erro ao puxar dados!");
+        }
+    }).catch(function (erro) {
+        console.error(erro);
+    });
+}
+
+
+
+function plotarGrafico(dados) {
+    const totalErrosGeral = dados.reduce((sum, item) => sum + item.total_erros, 0);
+    const total_erros = dados.map(item => item.total_erros);
+
+
+    if (totalErrosGeral === 0) {
+        return;
+    }
+
+    
+    const pergunta = dados.map(item => item.fkPergunta);
+    const percentualErros = dados.map(item => ((item.total_erros / totalErrosGeral) * 100).toFixed(2)); 
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'bar', 
+        data: {
+            labels: pergunta,
+            datasets: [{
+                label: 'Porcentagem de erros (%)',
+                data: percentualErros,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            },
+            {
+                    label: 'Total de Erros por pergunta',
+                    data: total_erros,
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    yAxisID: 'y2' 
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white',  
+                        font: {
+                            size: 16,  
+                            weight: 'bold' 
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: 'white',  
+                        font: {
+                            size: 14, 
+                            weight: 'bold' 
+                        }
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: 'white',  
+                        font: {
+                            size: 14, 
+                            weight: 'bold' 
+                        },
+                    }
+                }
+            }
+        }
+    });
+}
+
 </script>
