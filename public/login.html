@@ -86,7 +86,15 @@
 var tardis = new Audio();
 tardis.src = './assets/audio/tardissound_e294d2cc5060893.mp3'
     function entrar() {
-        //No começo da função é feita uma validação dos campos
+        var emailVar = email_input.value;
+        var senhaVar = senha_input.value;
+
+        if (emailVar == 'admin@email.com' && senhaVar == 'admin123') {
+            window.location = "../admin.html";
+        }
+         else {
+            
+         }
         aguardar();
         var emailVar = email_input.value;
         var senhaVar = senha_input.value;
@@ -96,8 +104,7 @@ tardis.src = './assets/audio/tardissound_e294d2cc5060893.mp3'
             mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
             finalizarAguardar();
             return false;
-        }
-        else {
+        } else {
             tardis.play();
             setInterval(sumirMensagem, 5000)
         }

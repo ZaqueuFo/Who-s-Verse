@@ -9,6 +9,17 @@ function cadastrar(questaoAtualServer, idUsuario) {
     return database.executar(instrucaoSql);
 }
 
+function usuarioQuiz(idUsuario) {
+
+    var instrucaoSql = `
+        UPDATE usuario 
+        SET fkQuizz = 1
+        WHERE idUsuario = ${idUsuario};
+    `;
+    console.log("Executando a instrução SQL: \n" + instrucaoSql);
+    return database.executar(instrucaoSql);
+}
+
 function puxarDados() {
     var instrucaoSql = `
        SELECT fkPergunta, COUNT(*) AS total_erros
@@ -22,5 +33,6 @@ function puxarDados() {
 
 module.exports = {
     cadastrar,
-    puxarDados
+    puxarDados,
+    usuarioQuiz
 };

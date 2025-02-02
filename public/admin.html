@@ -3,12 +3,342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Who's</title>
+    <title>Who's Admin</title>
+    <link rel="stylesheet" href="./css/admin.css">
+    <script src="../js/sessao.js"></script>
+    <link rel="icon" href="./assets/icons/doctor who logo.gif">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
+<body onload="checarUsuario(), atlGrafico(), checarUsuarioMensal(), atlGraficoM(), atlkpi1(), atlkpi2(), atlkpi3(), atlkpi4()">
+    <!-- Navbar -->
+    <div class="header">
+        <div class="container">
+          <img src="./assets/icons/doctor who logo.gif">
+          <ul class="navbar">
+            <li>
+              <a href="index.html">Home</a>
+            </li>
+            <li>
+              <a href="login.html">Quizz</a>
+            </li>
+            <li>|</li>
+            <li class="agora">
+              <a href="login.html">Sair</a>
+            </li>
+          </ul>
+        </div>
+    </div>
+    <div class="main">
+        <div class="banner">
+            <div class="titulo">
+                <h1>Vamos viajar pelo espaço e Tempo</h1> <br>
+                <p>Tradução: Vamos viajar pelo espaço e Tempo</p> <br>
+                <span>D</span>
+            </div>
+        </div>
+    <div class="tituloZaqueu">
+        <h1 id="h1_sobre">Como anda o seu site?</h1> <br> <br> <br>
+    </div>
+</div>
+<div class="mainContainer">
+    
+<div class="graph" style="width: 50%; height: 200px; margin: auto;">
+    <h1>Gráfico Diário:</h1>
+    <canvas id="myChart"></canvas>
+</div> <br> <br> <br>
+    
+<div class="graph" style="width: 50%; height: 500px; margin: auto;">
+    <h1>Gráfico Mensal:</h1>
+    <canvas id="myChart2"></canvas>
+</div>
+</div>
+
+<div class="containerIndicador">
+    <div class="indicadores"><h2>Dia com maior Fluxo: <div id="diaMaior"></div></h2> </div>
+    <div class="indicadores"><h2>Dia com menor Fluxo: <div id="diaMenor"></div></h2> </div> 
+    <div class="indicadores"><h2>Mês com maior Fluxo: <div id="mesMaior"></div></h2> </div>
+    <div class="indicadores"><h2>Mês com menor Fluxo: <div id="mesMenor"></div></h2> </div>
+</div>
+
     
 </body>
 </html>
 <script>
+    let proximaAtualizacao;
+
+    function checarUsuario() {
+        fetch("/admin/checarUsuario", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+        if (resposta.ok) {
+            resposta.json().then(function (dados) {
+                plotarGraficoD(dados);
+            });
+        } else {
+            console.error("Erro ao puxar dados!");
+        }
+    }).catch(function (erro) {
+        console.error(erro);
+    });
+    }
+
+    function checarUsuarioMensal() {
+        fetch("/admin/checarUsuarioMensal", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+        if (resposta.ok) {
+            resposta.json().then(function (dados) {
+                plotarGraficoM(dados);
+            });
+        } else {
+            console.error("Erro ao puxar dados!");
+        }
+    }).catch(function (erro) {
+        console.error(erro);
+    });
+    }
+
+    let myChart = null;
+
+    function plotarGraficoD(dados) {
+    const data = dados.map(item => item.data);
+    const quantidade = dados.map(item => item.quantidade_usuarios);
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+
+    if (myChart) {
+        myChart.destroy(); 
+    }
+
+    myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: data,
+            datasets: [{
+                label: 'Usuários cadastrados',
+                data: quantidade,
+                backgroundColor: 'rgba(255, 255, 255)', 
+                borderColor: 'rgba(0, 0, 0,)', 
+                borderWidth: 2,
+                hoverBackgroundColor: 'rgba(255, 215, 0, 1)', // Dourado ao passar o mouse
+                hoverBorderColor: 'rgba(255, 223, 0, 1)', 
+            }]
+        },
+        options: {
+    responsive: true,
+    maintainAspectRatio: false, 
+    plugins: {
+        legend: {
+            labels: {
+                font: {
+                    size: 24 // Aumenta a fonte da legenda
+                }
+            }
+        },
+        title: {
+            font: {
+                size: 28 // Aumenta a fonte do título
+            }
+        }
+    },
+    scales: {
+        y: {
+            beginAtZero: true, // Começa do zero
+            ticks: {
+                stepSize: 1, // Apenas valores inteiros
+                precision: 0, // Remove casas decimais
+                font: {
+                    size: 18 // Aumenta a fonte dos números do eixo Y
+                }
+            }
+        },
+        x: {
+            ticks: {
+                font: {
+                    size: 18 // Aumenta a fonte dos rótulos do eixo X
+                }
+            }
+        }
+    }
+}
+    });
+}
+
+let myChart2 = null;
+
+function plotarGraficoM(dados) {
+    const data = dados.map(item => item.mes_nome);
+    const quantidade = dados.map(item => item.total_usuarios);
+
+    const ctx2 = document.getElementById('myChart2').getContext('2d');
+
+    if (myChart2) {
+        myChart2.destroy(); 
+    }
+
+    myChart2 = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: data,
+            datasets: [{
+                label: 'Usuários cadastrados',
+                data: quantidade,
+                backgroundColor: 'rgba(255, 255, 255)', 
+                borderColor: 'rgba(0, 0, 0,)', 
+                borderWidth: 2,
+                hoverBackgroundColor: 'rgba(255, 215, 0, 1)', // Dourado ao passar o mouse
+                hoverBorderColor: 'rgba(255, 223, 0, 1)', 
+            }]
+        },
+        options: {
+    responsive: true,
+    maintainAspectRatio: false, 
+    plugins: {
+        legend: {
+            labels: {
+                font: {
+                    size: 24 // Aumenta a fonte da legenda
+                }
+            }
+        },
+        title: {
+            font: {
+                size: 28 // Aumenta a fonte do título
+            }
+        }
+    },
+    scales: {
+        y: {
+            beginAtZero: true, // Começa do zero
+            ticks: {
+                stepSize: 1, // Apenas valores inteiros
+                precision: 0, // Remove casas decimais
+                font: {
+                    size: 18 // Aumenta a fonte dos números do eixo Y
+                }
+            }
+        },
+        x: {
+            ticks: {
+                font: {
+                    size: 18 // Aumenta a fonte dos rótulos do eixo X
+                }
+            }
+        }
+    }
+}
+    });
+}
+
+
+
+function atlGrafico() {
+    proximaAtualizacao = setInterval(() => checarUsuario(), 5000);
+  }
+
+  function diaMaiorUsuarios() {
+    fetch("/kpi/diaMaiorUsuarios", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+        if (resposta.ok) {
+            resposta.json().then((json) => {
+            diaMaior.innerHTML = `${json[0].dia},  ${json[0].total_usuarios} usuarios`;
+          });
+        }
+      })
+      .catch(function (error) {
+        console.error("Erro ao realizar fetch:", error);
+        maiorVoto.innerHTML = `ERRO :(`;
+      });
+}
+
+function diaMenorUsuarios() {
+    fetch("/kpi/diaMenorUsuarios", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+        if (resposta.ok) {
+            resposta.json().then((json) => {
+            diaMenor.innerHTML = `${json[0].dia}, ${json[0].total_usuarios} usuarios`;
+          });
+        }
+      })
+      .catch(function (error) {
+        console.error("Erro ao realizar fetch:", error);
+        maiorVoto.innerHTML = `ERRO :(`;
+      });
+}
+
+function mesMaiorUsuarios() {
+    fetch("/kpi/mesMaiorUsuarios", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+        if (resposta.ok) {
+            resposta.json().then((json) => {
+            mesMaior.innerHTML = `${json[0].mes}`;
+          });
+        }
+      })
+      .catch(function (error) {
+        console.error("Erro ao realizar fetch:", error);
+        maiorVoto.innerHTML = `ERRO :(`;
+      });
+}
+
+function mesMenorUsuarios() {
+    fetch("/kpi/mesMenorUsuarios", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+        if (resposta.ok) {
+            resposta.json().then((json) => {
+            mesMenor.innerHTML = `${json[0].mes}`;
+          });
+        }
+      })
+      .catch(function (error) {
+        console.error("Erro ao realizar fetch:", error);
+        maiorVoto.innerHTML = `ERRO :(`;
+      });
+}
+
+
+function atlGraficoM() {
+    proximaAtualizacao2 = setInterval(() => checarUsuarioMensal(), 5000);
+  }
+
+function atlkpi1() {
+    kpi1 = setInterval(() => diaMaiorUsuarios(), 2000);
+  }
+
+function atlkpi2() {
+    kpi2 = setInterval(() => diaMenorUsuarios(), 2000);
+  }
+
+function atlkpi3() {
+    kpi3 = setInterval(() => mesMaiorUsuarios(), 2000);
+  }
+
+  function atlkpi4() {
+    kpi3 = setInterval(() => mesMenorUsuarios(), 2000);
+  }
+  
+
 
 </script>

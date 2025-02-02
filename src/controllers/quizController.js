@@ -25,6 +25,30 @@ function quizz(req, res) {
     }
 }
 
+function usuarioQuiz(req, res) {
+    var idUsuario = req.body.idUsuarioServer;
+    console.log(req.body);
+    if (quizz == undefined) {
+        res.status(400).send("Nada foi salvo");
+    } else {
+        quizModel.usuarioQuiz(idUsuario)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log(
+                        "\nHouve um erro ao cadastrar a pergunta! Erro: ",
+                        erro.sqlMessage
+                    );
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
+}
+
 function puxarDados(req, res) {
     quizModel.puxarDados()
         .then(
@@ -42,5 +66,6 @@ function puxarDados(req, res) {
 
 module.exports = {
   quizz,
-  puxarDados
+  puxarDados,
+  usuarioQuiz
 };

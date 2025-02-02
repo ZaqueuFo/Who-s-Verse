@@ -8,7 +8,7 @@
     <script src="../js/sessao.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body onload="puxarDados()">
+<body onload="puxarDados(), atlGrafico(), perguntaErro(), qtdUsuarios(), quantidadeErro(), atlkpi1(), atlkpi2(), atlkpi3()">
     <div class="container">
         <div class="janela">
             <div class="header-left">
@@ -98,12 +98,18 @@
                         <button onclick="tentarNovamente()" id="btnTentarNovamente" disabled>Tentar novamente</button>
                     </div>
                 </div>
-                
+                <div class="graph">
+                    <canvas id="myChart"></canvas>
+                </div>
+                <div class="containerIndicador">
+                    <div class="indicadores"><h3>Quantas pessoas fizeram o quiz: <div id="quantidadeUsuarios"></div></h3> </div>
+                    <div class="indicadores"><h3>Qual questão mais difícil: <div id="erroPergunta"></div></h3> </div> 
+                    <div class="indicadores"><h3>Erros totais do quiz: <div id="quantosErros"></div></h3> </div>
+                </div>
             </div>
-            <div class="graph">
-                <canvas id="myChart"></canvas>
-            </div>
-        </div>
+           
+            
+           
     </div>
 </body>
 </html>
@@ -190,6 +196,7 @@
     let certas = 0
     let erradas = 0
     let quantidadeDeQuestoes = listaDeQuestoes.length
+    let proximaAtualizacao;
     // let isUltima = numeroDaQuestaoAtual == quantidadeDeQuestoes-1 ? true : false
 
     function onloadEsconder() {
@@ -198,6 +205,7 @@
     }
 
     function iniciarQuiz() {
+        var idUsuarioVar = sessionStorage.ID_USUARIO;
         document.getElementById('pontuacao').style.display = "flex"
         document.getElementById('jogo').style.display = "flex"
         document.getElementById('btnIniciarQuiz').style.display = "none"
@@ -210,6 +218,29 @@
         btnProx.disabled = true
         // btnConcluir.disabled = true
         btnTentarNovamente.disabled = true
+
+        fetch("/quiz/usuarioQuiz", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    idUsuarioServer: idUsuarioVar
+                }),
+                })
+                .then(function (resposta) {
+                    console.log("resposta: ", resposta);
+
+                    if (resposta.ok) {
+                        
+                    } 
+                })
+                .catch(function (resposta) {
+                    console.log(`#ERRO: ${resposta}`);
+                    finalizarAguardar();
+                });
+
+        
     }
 
     function preencherHTMLcomQuestaoAtual(index) {
@@ -410,21 +441,28 @@
 
 
 
-function plotarGrafico(dados) {
-    const totalErrosGeral = dados.reduce((sum, item) => sum + item.total_erros, 0);
-    const total_erros = dados.map(item => item.total_erros);
+let myChart = null; 
 
+function plotarGrafico(dados) {
+    let totalErrosGeral = dados.reduce((sum, item) => sum + item.total_erros, 0);
+    let total_erros = dados.map(item => item.total_erros);
 
     if (totalErrosGeral === 0) {
-        return;
+        return; 
+    }
+
+    let pergunta = dados.map(item => item.fkPergunta);
+    let percentualErros = dados.map(item => ((item.total_erros / totalErrosGeral) * 100).toFixed(2)); 
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+
+    
+    if (myChart) {
+        myChart.destroy(); 
     }
 
     
-    const pergunta = dados.map(item => item.fkPergunta);
-    const percentualErros = dados.map(item => ((item.total_erros / totalErrosGeral) * 100).toFixed(2)); 
-
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, {
+    myChart = new Chart(ctx, {
         type: 'bar', 
         data: {
             labels: pergunta,
@@ -436,14 +474,13 @@ function plotarGrafico(dados) {
                 borderWidth: 1
             },
             {
-                    label: 'Total de Erros por pergunta',
-                    data: total_erros,
-                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1,
-                    yAxisID: 'y2' 
-                }
-            ]
+                label: 'Total de Erros por pergunta',
+                data: total_erros,
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                yAxisID: 'y2' 
+            }]
         },
         options: {
             responsive: true,
@@ -470,16 +507,89 @@ function plotarGrafico(dados) {
                 },
                 y: {
                     ticks: {
-                        color: 'white',  
-                        font: {
-                            size: 14, 
-                            weight: 'bold' 
-                        },
+                      display: false
+                    },
+                    grid: {
+                        display: false
                     }
                 }
             }
         }
     });
 }
+
+function qtdUsuarios() {
+    fetch("/kpi/qtdUsuarios", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+        if (resposta.ok) {
+            resposta.json().then((json) => {
+            quantidadeUsuarios.innerHTML = `${json[0].total_usuarios_quizz}`;
+          });
+        }
+      })
+      .catch(function (error) {
+        console.error("Erro ao realizar fetch:", error);
+        maiorVoto.innerHTML = `ERRO :(`;
+      });
+}
+
+function perguntaErro() {
+    fetch("/kpi/perguntaErro", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+        if (resposta.ok) {
+            resposta.json().then((json) => {
+            erroPergunta.innerHTML = `${json[0].total_erros}`;
+          });
+        }
+      })
+      .catch(function (error) {
+        console.error("Erro ao realizar fetch:", error);
+        maiorVoto.innerHTML = `ERRO :(`;
+      });
+}
+
+function quantidadeErro() {
+    fetch("/kpi/quantidadeErro", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (resposta) {
+        if (resposta.ok) {
+            resposta.json().then((json) => {
+            quantosErros.innerHTML = `${json[0].total_erros}`;
+          });
+        }
+      })
+      .catch(function (error) {
+        console.error("Erro ao realizar fetch:", error);
+        maiorVoto.innerHTML = `ERRO :(`;
+      });
+}
+
+
+function atlGrafico() {
+    proximaAtualizacao = setInterval(() => puxarDados(), 5000);
+  }
+
+function atlkpi1() {
+    kpi1 = setInterval(() => qtdUsuarios(), 5000);
+  }
+
+function atlkpi2() {
+    kpi2 = setInterval(() => perguntaErro(), 5000);
+  }
+
+function atlkpi3() {
+    kpi3 = setInterval(() => quantidadeErro(), 5000);
+  }
 
 </script>
